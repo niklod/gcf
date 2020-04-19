@@ -8,7 +8,7 @@ class User(models.Model):
     email = models.EmailField(max_length=125, null=False)
     first_name = models.CharField(max_length=80, null=True)
     last_name = models.CharField(max_length=80, null=True)
-    created_at = models.DateTimeField(editable=False, null=False)
+    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
@@ -28,9 +28,23 @@ class Player(models.Model):
     name = models.CharField(max_length=100, null=False)
     age = models.IntegerField(null=True)
     description = models.CharField(max_length=300, null=True)
+    slug = models.CharField(max_length=100, null=True)
+    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
 
     def __repr__(self):
         return f'<Player(Name: {self.name}, id: {self.id})>'
+
+
+class Game(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    slug = models.CharField(max_length=100, null=True)
