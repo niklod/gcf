@@ -3,11 +3,10 @@ from django.core.validators import EmailValidator
 from django.utils import timezone
 from django.utils.text import slugify
 
-from slugify import slugify_ru
-
+from .utils.slug_generator import generate_slug
 
 class User(models.Model):
-    username = models.CharField(max_length=80, null=False)
+    username = models.CharField(max_length=80, null=False, unique=True)
     email = models.EmailField(max_length=125, null=False)
     first_name = models.CharField(max_length=80, null=True)
     last_name = models.CharField(max_length=80, null=True)
@@ -29,7 +28,7 @@ class User(models.Model):
 
 class Player(models.Model):
     name = models.CharField(max_length=100, null=False)
-    nickname = models.CharField(max_length=100, null=True)
+    nickname = models.CharField(max_length=100, null=False, unique=True)
     age = models.IntegerField(null=True)
     description = models.CharField(max_length=300, null=True)
     slug = models.CharField(max_length=100, null=True)
@@ -39,10 +38,19 @@ class Player(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             self.created_at = timezone.now()
-        self.slug = slugify_ru(self.nickname, to_lower=True)
+
+            temp_slug = generate_slug(self.nickname)
+            player = Player.objects.filter(slug = temp_slug).all()            
+
+            # If we find player with same nickname, generate slug as name + nickname
+            if player:
+                self.slug = generate_slug(f'{self.name} {self.nickname}')
+            else:
+                self.slug = temp_slug
+
         self.updated_at = timezone.now()
         return super().save(*args, **kwargs)
-
+    
     def __str__(self):
         return self.name
 
@@ -51,12 +59,11 @@ class Player(models.Model):
 
 
 class Game(models.Model):
-    name = models.CharField(max_length=100, null=False)
+    name = models.CharField(max_length=100, null=False, unique=True)
     slug = models.CharField(max_length=100, null=True)
+    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.created_at = timezone.now()
-        self.slug = slugify_ru(self.nickname, to_lower=True)
-        self.updated_at = timezone.now()
+            self.slug = generate_slug(self.name)
         return super().save(*args, **kwargs)
