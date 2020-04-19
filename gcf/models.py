@@ -25,7 +25,6 @@ class User(models.Model):
 
 
 class Player(models.Model):
-    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100, null=False)
     age = models.IntegerField(null=True)
     description = models.CharField(max_length=300, null=True)
