@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Player, User
+from .models import Player, User, Game
 
 
 class ViewsTest(TestCase):
@@ -41,8 +41,8 @@ class ModelsCreateTest(TestCase):
         test_user = User(username='Test User', email='test@test.ru')
         test_user.save()
 
-        self.test_user(test_user.created_at)
-        self.test_user(test_user.updated_at)
+        self.assertIsNotNone(test_user.created_at)
+        self.assertIsNotNone(test_user.updated_at)
 
         update_date = test_user.updated_at
 
@@ -50,3 +50,30 @@ class ModelsCreateTest(TestCase):
         test_user.save()
 
         self.assertNotEqual(test_user.updated_at, update_date)
+
+    def test_generate_same_player_slug(self):
+        test_player1 = Player(name='Test Player 1', nickname='TestPlayer')
+        test_player1.save()
+
+        self.assertIsNotNone(test_player1.slug)
+
+        test_player2 = Player(name='Test Player 2', nickname='Testplayer')
+        test_player2.save()
+
+        self.assertNotEqual(test_player1.slug, test_player2.slug)
+
+    def test_generate_cyrillic_slug(self):
+        test_player = Player(name='Test Player', nickname='Тестовый игрок')
+        test_player.save()
+
+        self.assertIsNotNone(test_player.slug)
+        self.assertNotEqual(test_player.slug, 'Тестовый игрок')
+        self.assertNotEqual(test_player.slug, 'тестовый-игрок')
+    
+    def test_generate_game_slug(self):
+        test_game = Game(name='Test Game')
+        test_game.save()
+
+        self.assertIsNotNone(test_game.slug)
+        self.assertNotEqual(test_game.slug, 'Test Game')
+        self.assertEqual(test_game.slug, 'test-game')
