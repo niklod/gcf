@@ -6,4 +6,7 @@ from .models import Player
 
 class PlayerView(generic.ListView):
     model = Player
-    context_object_name = 'players_list'
+
+
+class PlayerDetailView(generic.DetailView):
+    model = Player
