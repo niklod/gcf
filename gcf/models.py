@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.validators import EmailValidator
 from django.utils import timezone
+from django.utils.text import slugify
+
+from slugify import slugify_ru
 
 
 class User(models.Model):
@@ -26,6 +29,7 @@ class User(models.Model):
 
 class Player(models.Model):
     name = models.CharField(max_length=100, null=False)
+    nickname = models.CharField(max_length=100, null=True)
     age = models.IntegerField(null=True)
     description = models.CharField(max_length=300, null=True)
     slug = models.CharField(max_length=100, null=True)
@@ -35,6 +39,7 @@ class Player(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             self.created_at = timezone.now()
+        self.slug = slugify_ru(self.nickname, to_lower=True)
         self.updated_at = timezone.now()
         return super().save(*args, **kwargs)
 
@@ -48,3 +53,10 @@ class Player(models.Model):
 class Game(models.Model):
     name = models.CharField(max_length=100, null=False)
     slug = models.CharField(max_length=100, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created_at = timezone.now()
+        self.slug = slugify_ru(self.nickname, to_lower=True)
+        self.updated_at = timezone.now()
+        return super().save(*args, **kwargs)
