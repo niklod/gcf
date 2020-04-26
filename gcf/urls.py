@@ -4,5 +4,5 @@ from .views import PlayerView, PlayerDetailView
 app_name = 'gcf'
 urlpatterns = [
     path('players/', PlayerView.as_view(), name='players_list'),
-    path('players/<int:pk>/', PlayerDetailView.as_view(), name='player_detail'),
+    path('players/<str:slug>/', PlayerDetailView.as_view(), name='player_detail'),
 ]

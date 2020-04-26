@@ -1,7 +1,7 @@
 {% for player in player_list %}
 <ul>
     <li>
-        <h2>{{player.name}}</h2>
+        <h2><a href="{% url 'gcf:player_detail' player.slug %}">{{ player.name }}</a></h2>
         <p>{{player.age}}</p>
         <p>{{player.description}}</p>
     </li>
