@@ -1,20 +1,48 @@
 {% extends 'gcf/base.html' %}
 {% block app_content %}
 <div class="row">
-    <h1>{{player.nickname}}</h1>
-</div>
-<div class="row">
-    {% if player.games.all %}
-    <div>
-        <h2>Player games:</h2>
+    <div class="row col-md-12">
+        <h1>Конфиг игрока {{ player.nickname }} по {{ game.name }}</h1>
     </div>
-    <div>
-        <ul>
-            {% for game in player.games.all %}
-            <li>{{ game.name }}</li>
-            {% endfor %}
-        </ul>
+    <div class="col-md-4">
+        <div class="row">
+            <h2>{{player.nickname}}</h2>
+        </div>
+        <div class="row">
+            <p>Photo</p>
+        </div>
+        <div class="row">
+            <h6>Информация о игроке</h2>
+        </div>
+        <div class="row">
+            <ul>
+                <li>Имя: {{ player.name }}</li>
+                <li>Команда: {{ player.age }}</li>
+                <li>Возраст: {{ player.age }}</li>
+            </ul>
+        </div>
+        <div class="row">
+            <h6>Описание</h6>
+        </div>
+        <div class="row">
+            <p>{{ player.description }}</p>
+        </div>
     </div>
-    {% endif %}
+    <div class="col-md-8">
+        <div class="row">
+            {% if player.games.all %}
+            <h2>Player games:</h2>
+        </div>
+        <div class="row">
+            <div>
+                <ul>
+                    {% for game in player.games.all %}
+                    <li>{{ game.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
