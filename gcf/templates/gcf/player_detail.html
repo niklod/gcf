@@ -1,1 +1,20 @@
-<h1>{{player.name}}</h1>
+{% extends 'gcf/base.html' %}
+{% block app_content %}
+<div class="row">
+    <h1>{{player.nickname}}</h1>
+</div>
+<div class="row">
+    {% if player.games.all %}
+    <div>
+        <h2>Player games:</h2>
+    </div>
+    <div>
+        <ul>
+            {% for game in player.games.all %}
+            <li>{{ game.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

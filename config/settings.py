@@ -23,6 +23,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap4',
     'gcf.apps.GcfConfig',
     'django.contrib.admin',
     'django.contrib.auth',
