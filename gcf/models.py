@@ -1,9 +1,7 @@
 from django.db import models
-from django.core.validators import EmailValidator
 from django.utils import timezone
-from django.utils.text import slugify
-
 from .utils.slug_generator import generate_slug
+
 
 class User(models.Model):
     username = models.CharField(max_length=80, null=False, unique=True)
@@ -21,7 +19,7 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
-    
+
     def __repr__(self):
         return f'<User(username: {self.username}, id: {self.id})>'
 
@@ -40,7 +38,7 @@ class Player(models.Model):
             self.created_at = timezone.now()
 
             temp_slug = generate_slug(self.nickname)
-            player = Player.objects.filter(slug = temp_slug).all()            
+            player = Player.objects.filter(slug = temp_slug).all()
 
             # If we find player with same nickname, generate slug as name + nickname
             if player:
@@ -50,7 +48,7 @@ class Player(models.Model):
 
         self.updated_at = timezone.now()
         return super().save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.name
 
