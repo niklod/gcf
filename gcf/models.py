@@ -24,6 +24,23 @@ class User(models.Model):
         return f'<User(username: {self.username}, id: {self.id})>'
 
 
+class Game(models.Model):
+    name = models.CharField(max_length=100, null=False, unique=True)
+    slug = models.CharField(max_length=100, null=True)
+    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = generate_slug(self.name)
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+    
+    def __repr__(self):
+        return f'<(Game: {self.name}, id: {self.id})>'
+
+
 class Player(models.Model):
     name = models.CharField(max_length=100, null=False)
     nickname = models.CharField(max_length=100, null=False, unique=True)
@@ -32,6 +49,7 @@ class Player(models.Model):
     slug = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
+    games = models.ManyToManyField(Game)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -54,14 +72,3 @@ class Player(models.Model):
 
     def __repr__(self):
         return f'<Player(Name: {self.name}, id: {self.id})>'
-
-
-class Game(models.Model):
-    name = models.CharField(max_length=100, null=False, unique=True)
-    slug = models.CharField(max_length=100, null=True)
-    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = generate_slug(self.name)
-        return super().save(*args, **kwargs)
