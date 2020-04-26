@@ -38,7 +38,7 @@ class Player(models.Model):
             self.created_at = timezone.now()
 
             temp_slug = generate_slug(self.nickname)
-            player = Player.objects.filter(slug = temp_slug).all()
+            player = Player.objects.filter(slug=temp_slug).all()
 
             # If we find player with same nickname, generate slug as name + nickname
             if player:
