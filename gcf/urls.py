@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import PlayerView, PlayerDetailView
+from .views import PlayerDetailView, GameView
+
 
 app_name = 'gcf'
 urlpatterns = [
-    path('players/', PlayerView.as_view(), name='players_list'),
-    path('players/<str:slug>/', PlayerDetailView.as_view(), name='player_detail'),
+    path('<str:game_slug>/', GameView.as_view(), name='game_detail'),
+    path('<str:game_slug>/<str:player_slug>/', PlayerDetailView.as_view(), name='player_detail'),
 ]
