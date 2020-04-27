@@ -22,7 +22,7 @@ class ViewsTest(TestCase):
 
 
 class ModelsCreateTest(TestCase):
-    
+
     def test_update_player(self):
         test_player = Player(name='Test Player', age=123, description='Test Description')
         test_player.save()
@@ -69,7 +69,7 @@ class ModelsCreateTest(TestCase):
         self.assertIsNotNone(test_player.slug)
         self.assertNotEqual(test_player.slug, 'Тестовый игрок')
         self.assertNotEqual(test_player.slug, 'тестовый-игрок')
-    
+
     def test_generate_game_slug(self):
         test_game = Game(name='Test Game')
         test_game.save()
