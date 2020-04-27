@@ -1,5 +1,6 @@
+from django.http import Http404
 from django.views import generic
-from .models import Player, Game
+from .models import Player, Game, PlayerConfig
 from django.shortcuts import get_object_or_404
 
 
@@ -18,6 +19,13 @@ class PlayerDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['game'] = get_object_or_404(Game, slug=self.kwargs.get('game_slug', ''))
+        config = PlayerConfig.objects.filter(game__id=context['game'].id, player__id=context['player'].id).first()
+
+        if config:
+            context['config'] = config
+        else:
+            raise Http404('Конфига не существует')
+
         return context
 
 
