@@ -12,7 +12,7 @@ class PlayerConfig(models.Model):
     created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
-    mouse_config = models.OneToOneField(MouseConfig, on_delete=models.CASCADE)
+    mouse_config = models.OneToOneField(MouseConfig, on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
