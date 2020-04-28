@@ -1,24 +1,81 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Player, User, Game
+from .models import Player, User, Game, PlayerConfig
 
 
 class ViewsTest(TestCase):
 
-    def test_player_list_view(self):
-        response = self.client.get(reverse('gcf:players_list'))
+    def test_games_detail_view(self):
+        test_game = Game(name='Test game')
+        test_game.save()
+
+        response = self.client.get(reverse('gcf:game_detail', kwargs={
+            'game_slug': test_game.slug
+        }))
 
         self.assertEqual(response.status_code, 200)
 
-    def test_player_detail_view(self):
-        test_player = Player(name='Test Player', age=123, description='Test Description')
+    def test_player_detail_view_without_config(self):
+        test_game = Game(name='Test game')
+        test_game.save()
+        test_player = Player(name='Test Player', nickname='testplayer', age=123, description='Test Description')
         test_player.save()
+        test_player.games.add(test_game)
 
-        # response = self.client.get(f'/players/{test_player.pk}/')
-        response = self.client.get(reverse('gcf:player_detail', kwargs={'pk': test_player.pk}))
+        response = self.client.get(reverse('gcf:player_detail', kwargs={
+            'player_slug': test_player.slug,
+            'game_slug': test_game.slug}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_player_detail_view_with_config(self):
+        test_game = Game(name='Test game')
+        test_game.save()
+        test_player = Player(name='Test Player', nickname='testplayer', age=123, description='Test Description')
+        test_player.save()
+        test_player.games.add(test_game)
+        test_config = PlayerConfig(game=test_game, player=test_player)
+        test_config.save()
+
+        response = self.client.get(reverse('gcf:player_detail', kwargs={
+            'player_slug': test_player.slug,
+            'game_slug': test_game.slug}))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, test_player.name)
+
+    def test_player_detail_view_with_twi_configs(self):
+        test_game_1 = Game(name='Test game1')
+        test_game_1.save()
+        test_game_2 = Game(name='Test game2')
+        test_game_2.save()
+
+        test_player = Player(name='Test Player', nickname='testplayer', age=123, description='Test Description')
+        test_player.save()
+        test_player.games.add(test_game_1)
+        test_player.games.add(test_game_2)
+
+        test_config_1 = PlayerConfig(game=test_game_1, player=test_player)
+        test_config_1.save()
+        test_config_2 = PlayerConfig(game=test_game_2, player=test_player)
+        test_config_2.save()
+
+        response = self.client.get(reverse('gcf:player_detail', kwargs={
+            'player_slug': test_player.slug,
+            'game_slug': test_game_1.slug}))
+
+        self.assertEqual(response.context['config'], test_config_1)
+
+        response = self.client.get(reverse('gcf:player_detail', kwargs={
+            'player_slug': test_player.slug,
+            'game_slug': test_game_2.slug}))
+
+        self.assertEqual(response.context['config'], test_config_2)
+
+        response = self.client.get(reverse('gcf:player_detail', kwargs={
+            'player_slug': test_player.slug,
+            'game_slug': test_game_2.slug}))
+
+        self.assertNotEqual(response.context['config'], test_config_1)
 
 
 class ModelsCreateTest(TestCase):
