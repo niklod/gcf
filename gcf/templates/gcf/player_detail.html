@@ -29,11 +29,13 @@
         </div>
     </div>
     <div class="col-md-8">
+        {% if config.mouse_config %}
         <div class="row">
             <ul>
                 <li>DPI: {{config.mouse_config.dpi}}</li>
             </ul>
         </div>
+        {% endif %}
         <div class="row">
             {% if player.games.all %}
             <h2>Player games:</h2>
