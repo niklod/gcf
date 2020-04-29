@@ -14,6 +14,9 @@ class PlayerConfig(models.Model):
 
     mouse_config = models.OneToOneField(MouseConfig, on_delete=models.CASCADE, null=True, blank=True)
 
+    class Meta:
+        unique_together = ('game', 'player',)
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.created_at = timezone.now()
