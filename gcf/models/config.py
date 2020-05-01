@@ -10,6 +10,10 @@ class MouseConfig(models.Model):
     game_sens = models.FloatField(null=True, editable=True)
     zoom_sens = models.FloatField(null=True, editable=True)
     raw_input = models.BooleanField(null=True, editable=True)
+    mouse_acceleration = models.FloatField(null=True, editable=True)
+
+    def __str__(self):
+        return f'Настройки мыши - Игра: {self.playerconfig.game.name}, игрок: {self.playerconfig.player.nickname}'
 
 
 class VideoConfig(models.Model):
