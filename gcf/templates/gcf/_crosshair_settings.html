@@ -1,0 +1,16 @@
+{% if config.crosshair_config %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Настройки прицела:</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {% if config.crosshair_config.crosshair_avg_settings is not Null %}
+        <div class="console console-crosshair">
+            <textarea autocomplete="off" wrap="off">{{ config.crosshair_config.crosshair_avg_settings }}</textarea>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

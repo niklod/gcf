@@ -1,0 +1,74 @@
+{% if config.video_config %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Видео настройки:</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <ul class="list-unstyled">
+            {% if config.video_config.resolution_width is not None and config.video_config.resolution_width is not None %}
+            <li class="config_items">
+                <div>Разрешение экрана:</div>
+                <div>{{ config.video_config.resolution_width }}x{{ config.video_config.resolution_height }}</div>
+            </li>
+            {% endif %}
+            {% if config.video_config.aspect_ration_width is not None and config.video_config.aspect_ration_height is not None %}
+            <li class="config_items">
+                <div>Соотношение сторон:</div>
+                <div>{{ config.video_config.aspect_ration_width }}x{{ config.video_config.aspect_ration_height }}</div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <ul class="list-unstyled">
+            {% if config.video_config.frequency is not None %}
+            <li class="config_items">
+                <div>Частота обновления:</div>
+                <div>{{ config.video_config.frequency }} Гц</div>
+            </li>
+            {% endif %}
+            {% if config.video_config.dimension is not None %}
+            <li class="config_items">
+                <div>Размерность:</div>
+                <div>{{ config.video_config.dimension }}</div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <ul class="list-unstyled">
+            {% if config.video_config.win_sens is not None %}
+            <li class="config_items">
+                <div>Чувствительность в игре:</div>
+                <div>{{ config.video_config.game_sens }}</div>
+            </li>
+            {% endif %}
+            {% if config.video_config.win_sens is not None %}
+            <li class="config_items">
+                <div>Чувствительность в прицеле:</div>
+                <div>{{ config.video_config.zoom_sens }}</div>
+            </li>
+            {% endif %}
+            {% if config.video_config.raw_input is not None %}
+            <li class="config_items">
+                {% if config.video_config.raw_input %}
+                <div>Raw input:</div>
+                <div>1</div>
+                {% else %}
+                <div>Raw input:</div>
+                <div>0</div>
+                {% endif %}
+            </li>
+            {% endif %}
+            {% if config.video_config.win_sens is not None %}
+            <li class="config_items">
+                <div>Ускорение мыши:</div>
+                <div>{{ config.video_config.mouse_acceleration }}</div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endif %}

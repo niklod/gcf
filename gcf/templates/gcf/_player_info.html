@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-md-12">
+        <h2>{{player.nickname}}</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 main-photo">
+        <div>
+            <img src="..." alt="..." class="img-thumbnail">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4>Информация о игроке</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="list-unstyled">
+            {% if player.name %}
+            <li class="config_items">
+                <div>Имя:</div>
+                <div>{{ player.name }}</div>
+            </li>
+            {% endif %}
+            {% if player.age %}
+            <li class="config_items">
+                <div>Возраст:</div>
+                <div>{{ player.age }}</div>
+            </li>
+            {% endif %}
+            {% if player.city %}
+            <li class="config_items">
+                <div>Страна:</div>
+                <div>{{ player.city }}</div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% if player.description %}
+<div class="row">
+    <div class="col-md-12">
+        <h6>Описание</h6>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-11">
+        <p>{{ player.description }}</p>
+    </div>
+</div>
+{% endif %}

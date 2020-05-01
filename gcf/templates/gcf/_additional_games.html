@@ -1,0 +1,16 @@
+{% if player.games.all %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Player games:</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ul>
+            {% for game in player.games.all %}
+            <li>{{ game.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}

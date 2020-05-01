@@ -1,0 +1,48 @@
+.config_items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.console {
+    font-size: 14px;
+    color: #ffffff; 
+    padding: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #333333;
+    font-size: 14px;
+}
+
+.console textarea {
+    color: #ffffff !important;
+    resize: none;
+    background: none;
+    border: none;
+    display: block;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    font-size: 12px;
+    font-family: "Courier New", Courier, monospace;
+ }
+
+ .console-crosshair textarea {
+    height: 200px;
+ }
+
+.console-startup textarea {
+    height: 40px;
+ }
+
+.console textarea:focus {
+    outline: none;
+}
+
+.main-photo {
+    display: flex;
+    justify-content: center;
+}

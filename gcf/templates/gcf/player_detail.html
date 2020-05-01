@@ -1,54 +1,18 @@
 {% extends 'gcf/base.html' %}
 {% block app_content %}
 <div class="row">
-    <div class="row col-md-12">
+    <div class="div col-md-12">
         <h1>Конфиг игрока {{ player.nickname }} по {{ game.name }}</h1>
     </div>
-    <div class="col-md-4">
-        <div class="row">
-            <h2>{{player.nickname}}</h2>
-        </div>
-        <div class="row">
-            <p>Photo</p>
-        </div>
-        <div class="row">
-            <h6>Информация о игроке</h2>
-        </div>
-        <div class="row">
-            <ul>
-                <li>Имя: {{ player.name }}</li>
-                <li>Возраст: {{ player.age }}</li>
-            </ul>
-        </div>
-        <div class="row">
-            <h6>Описание</h6>
-        </div>
-        <div class="row">
-            <p>{{ player.description }}</p>
-        </div>
+    <div class="col-md-3">
+        {% include 'gcf/_player_info.html' %}
     </div>
     <div class="col-md-8">
-        {% if config.mouse_config %}
-        <div class="row">
-            <ul>
-                <li>DPI: {{config.mouse_config.dpi}}</li>
-            </ul>
-        </div>
-        {% endif %}
-        <div class="row">
-            {% if player.games.all %}
-            <h2>Player games:</h2>
-        </div>
-        <div class="row">
-            <div>
-                <ul>
-                    {% for game in player.games.all %}
-                    <li>{{ game.name }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
-        </div>
+        {% include 'gcf/_mouse_settings.html' %}
+        {% include 'gcf/_video_settings.html' %}
+        {% include 'gcf/_crosshair_settings.html' %}
+        {% include 'gcf/_start_settings.html' %}
+        {% include 'gcf/_additional_games.html' %}
     </div>
 </div>
 {% endblock %}
