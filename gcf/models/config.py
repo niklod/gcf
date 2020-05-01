@@ -4,6 +4,29 @@ from django.utils import timezone
 
 class MouseConfig(models.Model):
     dpi = models.IntegerField(null=True, editable=True)
+    edpi = models.IntegerField(null=True, editable=True)
+    usb_rate = models.IntegerField(null=True, editable=True)
+    win_sens = models.IntegerField(null=True, editable=True)
+    game_sens = models.FloatField(null=True, editable=True)
+    zoom_sens = models.FloatField(null=True, editable=True)
+    raw_input = models.BooleanField(null=True, editable=True)
+
+
+class VideoConfig(models.Model):
+    resolution_width = models.IntegerField(null=True, editable=True)
+    resolution_height = models.IntegerField(null=True, editable=True)
+    aspect_ration_width = models.IntegerField(null=True, editable=True)
+    aspect_ration_height = models.IntegerField(null=True, editable=True)
+    frequency = models.IntegerField(null=True, editable=True)
+    dimension = models.IntegerField(null=True, editable=True)
+
+
+class CrosshairConfig(models.Model):
+    crosshair_avg_settings = models.TextField(null=True, editable=True)
+
+
+class StartUpSettings(models.Model):
+    startup_avg_settings = models.TextField(null=True, editable=True)
 
 
 class PlayerConfig(models.Model):
