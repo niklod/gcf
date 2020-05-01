@@ -36,6 +36,9 @@ class PlayerConfig(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
 
     mouse_config = models.OneToOneField(MouseConfig, on_delete=models.CASCADE, null=True, blank=True)
+    video_config = models.OneToOneField(VideoConfig, on_delete=models.CASCADE, null=True, blank=True)
+    crosshair_config = models.OneToOneField(CrosshairConfig, on_delete=models.CASCADE, null=True, blank=True)
+    startup_config = models.OneToOneField(StartUpSettings, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         unique_together = ('game', 'player',)
