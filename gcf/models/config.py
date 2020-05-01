@@ -22,7 +22,10 @@ class VideoConfig(models.Model):
     aspect_ration_width = models.IntegerField(null=True, editable=True)
     aspect_ration_height = models.IntegerField(null=True, editable=True)
     frequency = models.IntegerField(null=True, editable=True)
-    dimension = models.IntegerField(null=True, editable=True)
+    dimension = models.CharField(max_length=100, null=True, editable=True)
+
+    # def __str__(self):
+    #     return f'Видео конфиг - Игра: {self.playerconfig.game.name}, игрок: {self.playerconfig.player.nickname}'
 
 
 class CrosshairConfig(models.Model):
