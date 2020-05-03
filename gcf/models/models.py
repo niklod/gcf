@@ -41,7 +41,7 @@ class Game(models.Model):
         return f'<(Game: {self.name}, id: {self.id})>'
 
 
-class Player(models.Model):
+class PlayerInfo(models.Model):
     name = models.CharField(max_length=100, null=False)
     nickname = models.CharField(max_length=100, null=False, unique=True)
     age = models.IntegerField(null=True)
@@ -49,10 +49,14 @@ class Player(models.Model):
     steam_link = models.CharField(max_length=300, null=True, editable=True)
     twitch_link = models.CharField(max_length=300, null=True, editable=True)
     description = models.CharField(max_length=300, null=True)
+
+
+class Player(models.Model):
     slug = models.CharField(max_length=100, null=True)
+    games = models.ManyToManyField(Game)
+    info = models.OneToOneField(PlayerInfo, on_delete=models.CASCADE, null=True, editable=True)
     created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
-    games = models.ManyToManyField(Game)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -75,3 +79,4 @@ class Player(models.Model):
 
     def __repr__(self):
         return f'<Player(Name: {self.name}, id: {self.id})>'
+

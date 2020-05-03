@@ -51,6 +51,7 @@ class CsgoPediaParser:
         player_info.nickname = self._parse_nickname(soup)
         player_info.firstname, player_info.lastname = self._parse_name(soup)
         player_info.age = self._parse_age(soup)
+        player_info.city = self._parse_city(soup)
         return player_info
 
     def _parse_nickname(self, soup) -> str:
@@ -75,8 +76,16 @@ class CsgoPediaParser:
         except AttributeError:
             raise
 
+    def _parse_city(self, soup) -> str:
+        try:
+            city = soup.find('h1').next_sibling.li.text
+            return city.strip()
+        except AttributeError:
+            raise
+
 
 if __name__ == "__main__":
     test = CsgoPediaParser()
-    urls = test.get_urls()
-    test.parse_all_csgo_players_into_csv(urls)
+    # urls = test.get_urls()
+    # test.parse_all_csgo_players_into_csv(urls)
+    print(test.parse_player('https://csgopedia.com/ru/players/s1mple/'))
