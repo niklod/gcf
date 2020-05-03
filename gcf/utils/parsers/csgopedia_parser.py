@@ -2,7 +2,7 @@ import csv
 from bs4 import BeautifulSoup as bs
 import requests
 from typing import List
-from models import CsPlayer, CsPlayerInfo
+from .models import CsPlayer, CsPlayerInfo
 
 
 class CsgoPediaParser:
@@ -44,7 +44,16 @@ class CsgoPediaParser:
                 player = self.parse_player(item)
                 writer.writerow(player.view_as_list())
 
-    def parse_player(self, url: str) -> CsPlayer:
+    def parse_all_csgo_players(self) -> List[CsPlayerInfo]:
+        url_list = self.get_urls()
+        players_list = []
+        for index, item in enumerate(url_list):
+            print(f'Парсим {index} из {len(url_list)} - {item}')
+            player = self.parse_player(item)
+            players_list.append(player)
+        return players_list
+
+    def parse_player(self, url: str) -> CsPlayerInfo:
         r = requests.get(url)
         player_info = CsPlayerInfo()
         soup = bs(r.text, 'html.parser')
