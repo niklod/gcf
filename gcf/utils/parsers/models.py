@@ -10,7 +10,7 @@ class CsMouseConfig:
     mouse_hz: int = None
     zoom_sens: float = None
     mouse_acc: float = None
-    win_sesn: int = None
+    win_sens: int = None
     raw_input: bool = True
 
 
