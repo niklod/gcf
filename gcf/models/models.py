@@ -42,16 +42,16 @@ class Game(models.Model):
 
 
 class PlayerInfo(models.Model):
-    name = models.CharField(max_length=100, null=False)
-    nickname = models.CharField(max_length=100, null=False, unique=True)
-    age = models.IntegerField(null=True)
+    name = models.CharField(max_length=100, null=True)
+    age = models.IntegerField(null=True, editable=True)
     city = models.CharField(max_length=100, null=True, editable=True)
     steam_link = models.CharField(max_length=300, null=True, editable=True)
     twitch_link = models.CharField(max_length=300, null=True, editable=True)
-    description = models.CharField(max_length=300, null=True)
+    description = models.CharField(max_length=300, null=True, editable=True)
 
 
 class Player(models.Model):
+    nickname = models.CharField(max_length=100, null=False, unique=True)
     slug = models.CharField(max_length=100, null=True)
     games = models.ManyToManyField(Game)
     info = models.OneToOneField(PlayerInfo, on_delete=models.CASCADE, null=True, editable=True, blank=True)
@@ -78,5 +78,4 @@ class Player(models.Model):
         return self.nickname
 
     def __repr__(self):
-        return f'<Player(Name: {self.name}, id: {self.id})>'
-
+        return f'<Player(Name: {self.nickname}, id: {self.id})>'
