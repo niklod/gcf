@@ -42,7 +42,8 @@ class Game(models.Model):
 
 
 class PlayerInfo(models.Model):
-    name = models.CharField(max_length=100, null=True)
+    firstname = models.CharField(max_length=100, null=True)
+    lastname = models.CharField(max_length=100, null=True)
     age = models.IntegerField(null=True, editable=True)
     city = models.CharField(max_length=100, null=True, editable=True)
     steam_link = models.CharField(max_length=300, null=True, editable=True)
