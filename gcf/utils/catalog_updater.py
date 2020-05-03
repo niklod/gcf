@@ -1,12 +1,14 @@
-from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig
+from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig, PlayerInfo
 from .parsers.prosettings_parser import CsProSettingsParser
-from .parsers.models import CsVideoConfig, CsMouseConfig, CsCrosshairConfig, CsViewModelConfig
+from.parsers.csgopedia_parser import CsgoPediaParser
+from .parsers.models import CsVideoConfig, CsMouseConfig, CsCrosshairConfig, CsViewModelConfig, CsPlayerInfo
 from django.core.exceptions import ObjectDoesNotExist
 
 
 class CatalogUpdater:
     def __init__(self):
         self.prosettings_parser = CsProSettingsParser()
+        self.csgopedia_parser = CsgoPediaParser()
         self.game = Game.objects.get(slug='cs-go')
 
     def update_configs(self) -> None:
@@ -31,6 +33,7 @@ class CatalogUpdater:
             self._update_mouse_config(game_config, parsed_player.mouse_config)
             self._update_crosshair_config(game_config, parsed_player.crosshair_config)
             self._update_viewmodel_config(game_config, parsed_player.viewmodel_config)
+            self._update_player_social_links(actual_player, parsed_player.player_info)
 
     def _update_video_config(self, game_config: PlayerConfig, new_config: CsVideoConfig):
 
@@ -113,6 +116,50 @@ class CatalogUpdater:
             )
             game_config.viewmodel_config = viewmodel_config
             game_config.save()
+
+    def _update_player_social_links(self, actual_player: Player, parse_info: CsPlayerInfo):
+        try:
+            actual_player.info.steam_link = parse_info.social_links['steam']
+            actual_player.info.twitch_link = parse_info.social_links['twitch']
+
+        except AttributeError:
+            player_info = PlayerInfo.objects.create(
+                steam_link=parse_info.social_links['steam'],
+                twitch_link=parse_info.social_links['twitch']
+            )
+            actual_player.info = player_info
+            actual_player.save()
+
+    def update_info(self):
+        players = self.csgopedia_parser.parse_all_csgo_players()
+
+        for parsed_player in players:
+
+            try:
+                actual_player = Player.objects.get(nickname__iexact=parsed_player.nickname)
+            except ObjectDoesNotExist:
+                actual_player = None
+
+            if actual_player:
+                self._update_player_info(actual_player, parsed_player)
+
+    def _update_player_info(self, actual_player: Player, parse_info: CsPlayerInfo):
+        try:
+            actual_player.info.firstname = parse_info.firstname
+            actual_player.info.lastname = parse_info.lastname
+            actual_player.info.age = parse_info.age
+            actual_player.info.city = parse_info.city
+            actual_player.info.save()
+
+        except AttributeError:
+            player_info = PlayerInfo.objects.create(
+                firstname=parse_info.firstname,
+                lastname=parse_info.lastname,
+                age=parse_info.age,
+                city=parse_info.city
+            )
+            actual_player.info = player_info
+            actual_player.save()
 
 
 if __name__ == "__main__":
