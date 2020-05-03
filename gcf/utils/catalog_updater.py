@@ -1,7 +1,7 @@
-from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig, PlayerInfo
+from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig, PlayerInfo, StartUpSettings
 from .parsers.prosettings_parser import CsProSettingsParser
-from.parsers.csgopedia_parser import CsgoPediaParser
-from .parsers.models import CsVideoConfig, CsMouseConfig, CsCrosshairConfig, CsViewModelConfig, CsPlayerInfo
+from .parsers.csgopedia_parser import CsgoPediaParser
+from .parsers.models import CsVideoConfig, CsMouseConfig, CsCrosshairConfig, CsViewModelConfig, CsPlayerInfo, CsStartupConfig
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -11,7 +11,7 @@ class CatalogUpdater:
         self.csgopedia_parser = CsgoPediaParser()
         self.game = Game.objects.get(slug='cs-go')
 
-    def update_configs(self) -> None:
+    def update_configs(self):
         players = self.prosettings_parser.parse_all_csgo_players()
 
         for parsed_player in players:
@@ -136,12 +136,20 @@ class CatalogUpdater:
         for parsed_player in players:
 
             try:
-                actual_player = Player.objects.get(nickname__iexact=parsed_player.nickname)
+                actual_player = Player.objects.get(nickname__iexact=parsed_player[0].nickname)
             except ObjectDoesNotExist:
                 actual_player = None
 
+            try:
+                game_config = actual_player.playerconfig_set.filter(game__slug=self.game.slug).first()
+            except (ObjectDoesNotExist, AttributeError):
+                game_config = None
+
             if actual_player:
-                self._update_player_info(actual_player, parsed_player)
+                self._update_player_info(actual_player, parsed_player[0])
+
+            if game_config:
+                self._update_startup_config(game_config, parsed_player[1])
 
     def _update_player_info(self, actual_player: Player, parse_info: CsPlayerInfo):
         try:
@@ -160,6 +168,18 @@ class CatalogUpdater:
             )
             actual_player.info = player_info
             actual_player.save()
+
+    def _update_startup_config(self, game_config, parse_info):
+        try:
+            game_config.startup_config.startup_settings = parse_info.startup
+            game_config.startup_config.save()
+
+        except AttributeError:
+            startup_config = StartUpSettings.objects.create(
+                startup_settings=parse_info.startup
+            )
+            game_config.startup_config = startup_config
+            game_config.save()
 
 
 if __name__ == "__main__":
