@@ -1,8 +1,9 @@
 import csv
+import re
 from bs4 import BeautifulSoup as bs
 import requests
 from typing import List
-from .models import CsPlayer, CsPlayerInfo
+from .models import CsPlayer, CsPlayerInfo, CsStartupConfig
 
 
 class CsgoPediaParser:
@@ -44,7 +45,20 @@ class CsgoPediaParser:
                 player = self.parse_player(item)
                 writer.writerow(player.view_as_list())
 
-    def parse_all_csgo_players(self) -> List[CsPlayerInfo]:
+    def parse_player(self, url: str) -> CsPlayer:
+        r = requests.get(url)
+        player_info = CsPlayerInfo()
+        player_startup = CsStartupConfig()
+        soup = bs(r.text, 'html.parser')
+        player_info.nickname = self._parse_nickname(soup)
+        player_info.firstname, player_info.lastname = self._parse_name(soup)
+        player_info.age = self._parse_age(soup)
+        player_info.city = self._parse_city(soup)
+        player_startup.startup = self._parse_startup(soup)
+
+        return (player_info, player_startup)
+
+    def parse_all_csgo_players(self) -> List[CsPlayer]:
         url_list = self.get_urls()
         players_list = []
         for index, item in enumerate(url_list):
@@ -52,16 +66,6 @@ class CsgoPediaParser:
             player = self.parse_player(item)
             players_list.append(player)
         return players_list
-
-    def parse_player(self, url: str) -> CsPlayerInfo:
-        r = requests.get(url)
-        player_info = CsPlayerInfo()
-        soup = bs(r.text, 'html.parser')
-        player_info.nickname = self._parse_nickname(soup)
-        player_info.firstname, player_info.lastname = self._parse_name(soup)
-        player_info.age = self._parse_age(soup)
-        player_info.city = self._parse_city(soup)
-        return player_info
 
     def _parse_nickname(self, soup) -> str:
         try:
@@ -92,9 +96,17 @@ class CsgoPediaParser:
         except AttributeError:
             raise
 
+    def _parse_startup(self, soup) -> str:
+        try:
+            startup = soup.find('a', text=re.compile('^скопировать настройки запуска', re.IGNORECASE)) \
+                .find_previous('div', class_='console console-dark').text
+            return startup.strip()
+        except AttributeError:
+            raise
+
 
 if __name__ == "__main__":
     test = CsgoPediaParser()
     # urls = test.get_urls()
     # test.parse_all_csgo_players_into_csv(urls)
-    print(test.parse_player('https://csgopedia.com/ru/players/s1mple/'))
+    print(test.parse_all_csgo_player())

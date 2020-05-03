@@ -45,6 +45,11 @@ class CsViewModelConfig:
 
 
 @dataclass
+class CsStartupConfig:
+    startup: str = None
+
+
+@dataclass
 class CsPlayerInfo:
     nickname: str = None
     firstname: str = None
@@ -72,6 +77,7 @@ class CsPlayer:
     video_config: CsVideoConfig = CsVideoConfig()
     crosshair_config: CsCrosshairConfig = CsCrosshairConfig()
     viewmodel_config: CsViewModelConfig = CsViewModelConfig()
+    startup_config: CsStartupConfig = CsStartupConfig()
     devices: CsDevices = CsDevices()
 
     def view_as_list(self):
