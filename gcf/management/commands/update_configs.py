@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from ...utils.catalog_updater import CatalogUpdater
+from ...utils.parsers.csgopedia_parser import CsgoPediaParser
 
 
 class Command(BaseCommand):
