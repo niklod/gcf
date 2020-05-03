@@ -37,7 +37,7 @@ class ViewModelConfig(models.Model):
 
 
 class StartUpSettings(models.Model):
-    startup_avg_settings = models.TextField(null=True, editable=True)
+    startup_settings = models.TextField(null=True, editable=True)
 
 
 class PlayerConfig(models.Model):
@@ -62,7 +62,7 @@ class PlayerConfig(models.Model):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'Игра: {self.game.name}, игрок: {self.player.nickname}'
+        return f'Конфиг: {self.game.name}, игрок: {self.player.nickname}'
 
     def __repr__(self):
         return f'<PlayerConfig(Game: {self.game.name}, Player: {self.player.nickname})>'
