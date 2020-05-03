@@ -54,7 +54,7 @@ class PlayerInfo(models.Model):
 class Player(models.Model):
     slug = models.CharField(max_length=100, null=True)
     games = models.ManyToManyField(Game)
-    info = models.OneToOneField(PlayerInfo, on_delete=models.CASCADE, null=True, editable=True)
+    info = models.OneToOneField(PlayerInfo, on_delete=models.CASCADE, null=True, editable=True, blank=True)
     created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 

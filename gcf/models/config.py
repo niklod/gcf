@@ -29,7 +29,11 @@ class VideoConfig(models.Model):
 
 
 class CrosshairConfig(models.Model):
-    crosshair_avg_settings = models.TextField(null=True, editable=True)
+    crosshair_settings = models.TextField(null=True, editable=True)
+
+
+class ViewModelConfig(models.Model):
+    viewmodel_settings = models.TextField(null=True, editable=True)
 
 
 class StartUpSettings(models.Model):
@@ -45,6 +49,7 @@ class PlayerConfig(models.Model):
     mouse_config = models.OneToOneField(MouseConfig, on_delete=models.CASCADE, null=True, blank=True)
     video_config = models.OneToOneField(VideoConfig, on_delete=models.CASCADE, null=True, blank=True)
     crosshair_config = models.OneToOneField(CrosshairConfig, on_delete=models.CASCADE, null=True, blank=True)
+    viewmodel_config = models.OneToOneField(ViewModelConfig, on_delete=models.CASCADE, null=True, blank=True)
     startup_config = models.OneToOneField(StartUpSettings, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
