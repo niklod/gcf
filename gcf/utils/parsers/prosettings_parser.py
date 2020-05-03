@@ -3,7 +3,7 @@ import csv
 from bs4 import BeautifulSoup as bs
 import requests
 from typing import List
-from models import CsPlayer, CsPlayerInfo, CsCrosshairConfig, CsMouseConfig, CsVideoConfig, CsViewModelConfig
+from .models import CsPlayer, CsPlayerInfo, CsCrosshairConfig, CsMouseConfig, CsVideoConfig, CsViewModelConfig
 
 
 class CsProSettingsParser:
@@ -36,6 +36,7 @@ class CsProSettingsParser:
         soup = bs(r.text, 'html.parser')
         player.player_info = self._parse_player_info(soup)
         player.video_config = self._parse_video_config(soup)
+        player.mouse_config = self._parse_mouse_config(soup)
         player.crosshair_config = self._parse_crosshair_config(soup)
         player.viewmodel_config = self._parse_viewmodel_config(soup)
         return player
@@ -44,6 +45,7 @@ class CsProSettingsParser:
         player_info = CsPlayerInfo()
         player_info.nickname = self._parse_nickname(soup)
         player_info.social_links = self._parse_social_links(soup)
+        return player_info
 
     def parse_all_csgo_players_into_csv(self, url_list):
         with open('csgo_players.csv', 'w', encoding='utf-8') as f:
@@ -53,6 +55,16 @@ class CsProSettingsParser:
                 print(f'Парсим {index} из {len(url_list)} - {item}')
                 player = self.parse_player(item)
                 writer.writerow(player.view_as_list())
+
+    def parse_all_csgo_players(self) -> List[CsPlayer]:
+        url_list = self.get_urls()
+        players_list = []
+        for index, item in enumerate(url_list):
+            print(f'Парсим {index} из {len(url_list)} - {item}')
+            player = self.parse_player(item)
+            players_list.append(player)
+
+        return players_list
 
     def _parse_nickname(self, soup) -> str:
         try:
@@ -85,7 +97,7 @@ class CsProSettingsParser:
         mouse_config.mouse_hz = self._parse_mouse_hz(soup)
         mouse_config.zoom_sens = self._parse_mouse_zoom_sens(soup)
         mouse_config.mouse_acc = self._parse_mouse_accel(soup)
-        mouse_config.win_sesn = self._parse_mouse_win_sens(soup)
+        mouse_config.win_sens = self._parse_mouse_win_sens(soup)
         mouse_config.raw_input = self._parse_mouse_raw_input(soup)
         return mouse_config
 
