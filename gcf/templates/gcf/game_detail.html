@@ -1,9 +1,9 @@
 {% for player in game.player_set.all %}
 <ul>
     <li>
-        <h2><a href="{% url 'gcf:player_detail' game.slug player.slug %}">{{ player.name }}</a></h2>
-        <p>{{player.age}}</p>
-        <p>{{player.description}}</p>
+        <h2><a href="{% url 'gcf:player_detail' game.slug player.slug %}">{{ player.nickname }}</a></h2>
+        <p>{{player.info.age}}</p>
+        <p>{{player.info.firstname}} {{player.info.lastname}}</p>
     </li>
 </ul>
 {% endfor %}
