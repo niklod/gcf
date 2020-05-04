@@ -33,7 +33,7 @@ class HltvParser:
     def parse_all_csgo_players(self) -> List[tuple]:
         url_list = self.get_urls()
         players_list = []
-        for index, item in enumerate(url_list[:20]):
+        for index, item in enumerate(url_list):
             print(f'Парсим {index} из {len(url_list)} - {item}')
             player = self.parse_player(item)
             players_list.append(player)
