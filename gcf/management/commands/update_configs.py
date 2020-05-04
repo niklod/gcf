@@ -8,3 +8,4 @@ class Command(BaseCommand):
         updater = CatalogUpdater()
         updater.update_configs()
         updater.update_info()
+        updater.update_age_and_stats()
