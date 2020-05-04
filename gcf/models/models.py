@@ -93,3 +93,10 @@ class PlayerStats(models.Model):
     damage_per_round = models.FloatField(null=True, editable=True)
     grenade_damage_per_round = models.FloatField(null=True, editable=True)
     assists_per_round = models.FloatField(null=True, editable=True)
+
+
+class PlayerImage(models.Model):
+    url = models.CharField(max_length=300, null=True, editable=True)
+    hltv_picture = models.CharField(max_length=300, null=True, editable=True)
+    hltv_crop_picture = models.CharField(max_length=300, null=True, editable=True)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
