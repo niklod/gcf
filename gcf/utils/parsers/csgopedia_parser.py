@@ -45,14 +45,14 @@ class CsgoPediaParser:
                 player = self.parse_player(item)
                 writer.writerow(player.view_as_list())
 
-    def parse_player(self, url: str) -> CsPlayer:
+    def parse_player(self, url: str) -> tuple:
         r = requests.get(url)
         player_info = CsPlayerInfo()
         player_startup = CsStartupConfig()
         soup = bs(r.text, 'html.parser')
         player_info.nickname = self._parse_nickname(soup)
         player_info.firstname, player_info.lastname = self._parse_name(soup)
-        player_info.age = self._parse_age(soup)
+        # player_info.age = self._parse_age(soup)
         player_info.city = self._parse_city(soup)
         player_startup.startup = self._parse_startup(soup)
 
