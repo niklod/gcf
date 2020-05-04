@@ -1,4 +1,4 @@
-from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig, PlayerInfo, StartUpSettings, PlayerStats
+from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig, PlayerInfo, StartUpSettings, PlayerStats, PlayerImage
 from .parsers.prosettings_parser import CsProSettingsParser
 from .parsers.csgopedia_parser import CsgoPediaParser
 from .parsers.hltv_parser import HltvParser
@@ -203,11 +203,25 @@ class CatalogUpdater:
             except (ObjectDoesNotExist, AttributeError):
                 stats = None
 
+            try:
+                pic = actual_player.playerimage_set.first()
+                if not pic:
+                    pic = actual_player.playerimage_set.create()
+                    pic.save()
+                else:
+                    pic = None
+
+            except (ObjectDoesNotExist, AttributeError):
+                pic = None
+
             if actual_player:
                 self._update_player_age(actual_player, parsed_player[0])
 
             if stats:
                 self._update_player_stats(stats, parsed_player[1])
+
+            if pic:
+                self._update_player_pic(pic, parsed_player[0])
 
     def _update_player_age(self, actual_player: Player, parse_info: CsPlayerInfo):
         try:
@@ -246,6 +260,11 @@ class CatalogUpdater:
             )
             stats = player_stats
             stats.save()
+
+    def _update_player_pic(self, pic: PlayerImage, parse_info: CsPlayerInfo):
+        pic.hltv_picture = parse_info.hltv_photo
+        pic.hltv_crop_picture = parse_info.hltv_crop_photo
+        pic.save()
 
 
 if __name__ == "__main__":
