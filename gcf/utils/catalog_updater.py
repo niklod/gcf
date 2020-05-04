@@ -1,7 +1,8 @@
-from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig, PlayerInfo, StartUpSettings
+from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig, PlayerInfo, StartUpSettings, PlayerStats
 from .parsers.prosettings_parser import CsProSettingsParser
 from .parsers.csgopedia_parser import CsgoPediaParser
-from .parsers.models import CsVideoConfig, CsMouseConfig, CsCrosshairConfig, CsViewModelConfig, CsPlayerInfo
+from .parsers.hltv_parser import HltvParser
+from .parsers.models import CsVideoConfig, CsMouseConfig, CsCrosshairConfig, CsViewModelConfig, CsPlayerInfo, CsPlayerStats
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -9,6 +10,7 @@ class CatalogUpdater:
     def __init__(self):
         self.prosettings_parser = CsProSettingsParser()
         self.csgopedia_parser = CsgoPediaParser()
+        self.hltv_parser = HltvParser()
         self.game = Game.objects.get(slug='cs-go')
 
     def update_configs(self):
@@ -140,6 +142,9 @@ class CatalogUpdater:
 
             try:
                 game_config = actual_player.playerconfig_set.filter(game__slug=self.game.slug).first()
+                if not game_config:
+                    game_config = actual_player.playerconfig_set.create(game=self.game)
+                    game_config.save()
             except (ObjectDoesNotExist, AttributeError):
                 game_config = None
 
@@ -153,7 +158,7 @@ class CatalogUpdater:
         try:
             actual_player.info.firstname = parse_info.firstname
             actual_player.info.lastname = parse_info.lastname
-            actual_player.info.age = parse_info.age
+            # actual_player.info.age = parse_info.age
             actual_player.info.city = parse_info.city
             actual_player.info.save()
 
@@ -178,6 +183,69 @@ class CatalogUpdater:
             )
             game_config.startup_config = startup_config
             game_config.save()
+
+    def update_age_and_stats(self):
+        players = self.hltv_parser.parse_all_csgo_players()
+
+        for parsed_player in players:
+
+            try:
+                actual_player = Player.objects.get(nickname__iexact=parsed_player[0].nickname)
+            except ObjectDoesNotExist:
+                actual_player = None
+
+            try:
+                stats = actual_player.playerstats_set.filter(game__slug=self.game.slug).first()
+                if not stats:
+                    stats = actual_player.playerstats_set.create(game=self.game)
+                    stats.save()
+
+            except (ObjectDoesNotExist, AttributeError):
+                stats = None
+
+            if actual_player:
+                self._update_player_age(actual_player, parsed_player[0])
+
+            if stats:
+                self._update_player_stats(stats, parsed_player[1])
+
+    def _update_player_age(self, actual_player: Player, parse_info: CsPlayerInfo):
+        try:
+            actual_player.info.age = parse_info.age
+            actual_player.info.save()
+
+        except AttributeError:
+            player_info = PlayerInfo.objects.create(
+                age=parse_info.age
+            )
+            actual_player.info = player_info
+            actual_player.save()
+
+    def _update_player_stats(self, stats: PlayerStats, parse_info: CsPlayerStats):
+        try:
+            stats.rating = parse_info.rating
+            stats.headshots_percent = parse_info.headshots_percent
+            stats.total_kills = parse_info.total_kills
+            stats.total_deaths = parse_info.total_deaths
+            stats.rounds_played = parse_info.rounds_played
+            stats.damage_per_round = parse_info.damage_per_round
+            stats.grenade_damage_per_round = parse_info.grenade_damage_per_round
+            stats.assists_per_round = parse_info.assists_per_round
+            stats.save()
+
+        except AttributeError:
+            player_stats = PlayerStats.objects.create(
+                rating=parse_info.rating,
+                headshots_percent=parse_info.headshots_percent,
+                total_kills=parse_info.total_kills,
+                total_deaths=parse_info.total_deaths,
+                rounds_played=parse_info.rounds_played,
+                damage_per_round=parse_info.damage_per_round,
+                grenade_damage_per_round=parse_info.grenade_damage_per_round,
+                assists_per_round=parse_info.assists_per_round
+            )
+            stats = player_stats
+            stats.save()
 
 
 if __name__ == "__main__":
