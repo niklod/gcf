@@ -1,7 +1,7 @@
 from ..models import PlayerConfig, Player, Game, VideoConfig, MouseConfig, CrosshairConfig, ViewModelConfig, PlayerInfo, StartUpSettings
 from .parsers.prosettings_parser import CsProSettingsParser
 from .parsers.csgopedia_parser import CsgoPediaParser
-from .parsers.models import CsVideoConfig, CsMouseConfig, CsCrosshairConfig, CsViewModelConfig, CsPlayerInfo, CsStartupConfig
+from .parsers.models import CsVideoConfig, CsMouseConfig, CsCrosshairConfig, CsViewModelConfig, CsPlayerInfo
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -60,8 +60,6 @@ class CatalogUpdater:
             game_config.save()
 
     def _update_mouse_config(self, game_config: PlayerConfig, new_config: CsMouseConfig):
-
-        print(new_config)
 
         try:
             game_config.mouse_config.dpi = new_config.dpi,
