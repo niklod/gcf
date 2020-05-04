@@ -1,17 +1,17 @@
-{% if config.crosshair_config %}
-{% if config.crosshair_config.crosshair_settings is not Null %}
+{% if config.viewmodel_config %}
+{% if config.viewmodel_config.viewmodel_settings is not Null %}
 <div class="row">
-    <section class="col-md-12 unborder-right">
+    <section class="col-md-12 unborder-left">
         <div class="row">
             <header class="col-md-12 uppercase">
-                <h3>Настройки прицела</h3>
+                <h3>Настройки viewmodel</h3>
             </header>
         </div>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="console console-crosshair">
-                    <textarea autocomplete="off" wrap="on">{{ config.crosshair_config.crosshair_settings }}</textarea>
+                    <textarea autocomplete="off" wrap="on">{{ config.viewmodel_config.viewmodel_settings }}</textarea>
                 </div>
             </div>
         </div>

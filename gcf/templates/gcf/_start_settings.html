@@ -1,16 +1,20 @@
 {% if config.startup_config %}
+{% if config.startup_config.startup_settings is not Null and config.startup_config.startup_settings != 'n/a'%}
 <div class="row">
-    <div class="col-md-12">
-        <h2>Параметры зaпуска:</h2>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        {% if config.startup_config.startup_avg_settings is not Null %}
-        <div class="console console-startup">
-            <textarea autocomplete="off" wrap="on">{{ config.startup_config.startup_avg_settings }}</textarea>
+    <section class="col-md-12">
+        <div class="row">
+            <header class="col-md-12 uppercase">
+                <h3>Параметры зaпуска:</h3>
+            </header>
         </div>
-        {% endif %}
-    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="console console-startup">
+                    <textarea autocomplete="off" wrap="on">{{ config.startup_config.startup_settings }}</textarea>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+{% endif %}
 {% endif %}

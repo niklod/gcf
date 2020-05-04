@@ -1,18 +1,24 @@
 {% extends 'gcf/base.html' %}
 {% block app_content %}
 <div class="row">
-    <div class="div col-md-12">
-        <h1>Конфиг игрока {{ player.nickname }} по {{ game.name }}</h1>
+    <div class="div col-md-12 main_header">
+        <h1>Конфиг {{ player.nickname }} по {{ game.name }}</h1>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {% include 'gcf/_player_info.html' %}
     </div>
     <div class="col-md-8">
         {% include 'gcf/_mouse_settings.html' %}
         {% include 'gcf/_video_settings.html' %}
-        {% include 'gcf/_crosshair_settings.html' %}
+        <div class="row">
+            <div class="col-md-6">
+                {% include 'gcf/_crosshair_settings.html' %}
+            </div>
+            <div class="col-md-6">
+                {% include 'gcf/_viewmodel_settings.html' %}
+            </div>
+        </div>
         {% include 'gcf/_start_settings.html' %}
-        {% include 'gcf/_additional_games.html' %}
     </div>
 </div>
 {% endblock %}
