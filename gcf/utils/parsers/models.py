@@ -58,6 +58,8 @@ class CsPlayerInfo:
     age: int = None
     description: str = None
     social_links: dict = field(default_factory=dict)
+    hltv_photo: str = None
+    hltv_crop_photo: str = None
 
     def view_as_list(self):
         return [
@@ -68,6 +70,20 @@ class CsPlayerInfo:
             self.age,
             self.description
         ]
+
+
+@dataclass
+class CsPlayerStats:
+    rating: float = None
+    headshots_percent: float = None
+    total_kills: int = None
+    total_deaths: int = None
+    rounds_played: int = None
+
+    damage_per_round: float = None
+    grenade_damage_per_round: float = None
+    assists_per_round: float = None
+
 
 
 @dataclass
