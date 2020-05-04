@@ -80,3 +80,16 @@ class Player(models.Model):
 
     def __repr__(self):
         return f'<Player(Name: {self.nickname}, id: {self.id})>'
+
+
+class PlayerStats(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    rating = models.FloatField(null=True, editable=True)
+    headshots_percent = models.FloatField(null=True, editable=True)
+    total_kills = models.IntegerField(null=True, editable=True)
+    total_deaths = models.IntegerField(null=True, editable=True)
+    rounds_played = models.IntegerField(null=True, editable=True)
+    damage_per_round = models.FloatField(null=True, editable=True)
+    grenade_damage_per_round = models.FloatField(null=True, editable=True)
+    assists_per_round = models.FloatField(null=True, editable=True)
