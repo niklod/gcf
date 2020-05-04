@@ -1,2 +1,2 @@
 from .config import PlayerConfig, MouseConfig, VideoConfig, StartUpSettings, VideoConfig, CrosshairConfig, ViewModelConfig
-from .models import User, Game, Player, PlayerInfo
+from .models import User, Game, Player, PlayerInfo, PlayerStats
