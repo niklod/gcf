@@ -34,12 +34,19 @@ section header {
     align-items: center;
     display: flex;
     flex-flow: row nowrap;
-    height: 33px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     margin-bottom: 15px;
 }
 
 body {
     color: #fefefe!important;
+}
+
+.player-pic {
+    max-width: 100%;
+    margin-bottom: -15px;
+    margin-top: -15px;
 }
 
 .uppercase {
