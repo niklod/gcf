@@ -7,8 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'gcf/style.css' %}">
-    <script src="https://kit.fontawesome.com/9581e0ccfc.js" crossorigin="anonymous"></script>
+    <link href="{% static 'gcf/css/all.css' %}" rel="stylesheet">
+    <script defer src="{% static 'gcf/js/all.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'gcf/css/style.css' %}">
     {% bootstrap_css %}
 </head>
 
