@@ -8,7 +8,9 @@ class User(models.Model):
     email = models.EmailField(max_length=125, null=False)
     first_name = models.CharField(max_length=80, null=True)
     last_name = models.CharField(max_length=80, null=True)
-    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
+    created_at = models.DateTimeField(editable=False,
+                                      null=False,
+                                      default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
@@ -27,7 +29,9 @@ class User(models.Model):
 class Game(models.Model):
     name = models.CharField(max_length=100, null=False, unique=True)
     slug = models.CharField(max_length=100, null=True)
-    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
+    created_at = models.DateTimeField(editable=False,
+                                      null=False,
+                                      default=timezone.now)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -55,8 +59,14 @@ class Player(models.Model):
     nickname = models.CharField(max_length=100, null=False, unique=True)
     slug = models.CharField(max_length=100, null=True)
     games = models.ManyToManyField(Game)
-    info = models.OneToOneField(PlayerInfo, on_delete=models.CASCADE, null=True, editable=True, blank=True)
-    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
+    info = models.OneToOneField(PlayerInfo,
+                                on_delete=models.CASCADE,
+                                null=True,
+                                editable=True,
+                                blank=True)
+    created_at = models.DateTimeField(editable=False,
+                                      null=False,
+                                      default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
@@ -98,5 +108,7 @@ class PlayerStats(models.Model):
 class PlayerImage(models.Model):
     url = models.CharField(max_length=300, null=True, editable=True)
     hltv_picture = models.CharField(max_length=300, null=True, editable=True)
-    hltv_crop_picture = models.CharField(max_length=300, null=True, editable=True)
+    hltv_crop_picture = models.CharField(max_length=300,
+                                         null=True,
+                                         editable=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
