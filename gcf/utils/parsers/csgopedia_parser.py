@@ -18,7 +18,8 @@ class CsgoPediaParser:
 
         while next_page:
             try:
-                next_page = soup.find('div', class_='pagination').find_all('a')[3]['href']
+                next_page = soup.find(
+                    'div', class_='pagination').find_all('a')[3]['href']
                 next_page = f'https://csgopedia.com{next_page}'
             except KeyError:
                 next_page = None
@@ -98,8 +99,11 @@ class CsgoPediaParser:
 
     def _parse_startup(self, soup) -> str:
         try:
-            startup = soup.find('a', text=re.compile('^скопировать настройки запуска', re.IGNORECASE)) \
-                .find_previous('div', class_='console console-dark').text
+            startup = soup.find(
+                'a',
+                text=re.compile('^скопировать настройки запуска',
+                                re.IGNORECASE)).find_previous(
+                                    'div', class_='console console-dark').text
             return startup.strip()
         except AttributeError:
             raise

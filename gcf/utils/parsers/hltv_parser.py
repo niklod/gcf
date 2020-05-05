@@ -1,9 +1,8 @@
-import csv
 import re
 from bs4 import BeautifulSoup as bs
 import requests
 from typing import List
-from .models import CsPlayer, CsPlayerInfo, CsPlayerStats
+from .models import CsPlayerInfo, CsPlayerStats
 
 
 class HltvParser:
@@ -46,68 +45,89 @@ class HltvParser:
         stats.total_deaths = self._parse_total_deaths(soup)
         stats.rounds_played = self._parse_rounds_played(soup)
         stats.damage_per_round = self._parse_damage_per_round(soup)
-        stats.grenade_damage_per_round = self._parse_grenade_damage_per_round(soup)
+        stats.grenade_damage_per_round = self._parse_grenade_damage_per_round(
+            soup)
         stats.assists_per_round = self._parse_assists_per_round(soup)
         stats.rating = self._parse_rating(soup)
 
         return stats
 
-    def _parse_total_kills(self, soup) -> int:
+    def _parse_total_kills(self, soup):
         try:
-            total_kills = soup.find('span', text=re.compile('^total kills$', re.IGNORECASE)).find_next('span').text
+            total_kills = soup.find(
+                'span', text=re.compile('^total kills$',
+                                        re.IGNORECASE)).find_next('span').text
             return int(total_kills.strip())
         except AttributeError:
             return None
 
-    def _parse_headshot_percent(self, soup) -> float:
+    def _parse_headshot_percent(self, soup):
         try:
-            headshot_percent = soup.find('span', text=re.compile('^Headshot %$', re.IGNORECASE)).find_next('span').text
+            headshot_percent = soup.find(
+                'span', text=re.compile('^Headshot %$',
+                                        re.IGNORECASE)).find_next('span').text
             return float(headshot_percent.strip('%'))
         except AttributeError:
             return None
 
-    def _parse_total_deaths(self, soup) -> int:
+    def _parse_total_deaths(self, soup):
         try:
-            total_deaths = soup.find('span', text=re.compile('^total deaths$', re.IGNORECASE)).find_next('span').text
+            total_deaths = soup.find(
+                'span', text=re.compile('^total deaths$',
+                                        re.IGNORECASE)).find_next('span').text
             return int(total_deaths.strip())
         except AttributeError:
             return None
 
-    def _parse_rounds_played(self, soup) -> int:
+    def _parse_rounds_played(self, soup):
         try:
-            rounds_played = soup.find('span', text=re.compile('^rounds played$', re.IGNORECASE)).find_next('span').text
+            rounds_played = soup.find(
+                'span', text=re.compile('^rounds played$',
+                                        re.IGNORECASE)).find_next('span').text
             return int(rounds_played.strip())
         except AttributeError:
             return None
 
-    def _parse_damage_per_round(self, soup) -> float:
+    def _parse_damage_per_round(self, soup):
         try:
-            damage_per_round = soup.find('span', text=re.compile('^damage / round$', re.IGNORECASE)).find_next('span').text
+            damage_per_round = soup.find(
+                'span', text=re.compile('^damage / round$',
+                                        re.IGNORECASE)).find_next('span').text
             return float(damage_per_round.strip())
         except AttributeError:
             return None
 
-    def _parse_grenade_damage_per_round(self, soup) -> float:
+    def _parse_grenade_damage_per_round(self, soup):
         try:
-            grenade_damage_per_round = soup.find('span', text=re.compile('^grenade dmg / round$', re.IGNORECASE)).find_next('span').text
+            grenade_damage_per_round = soup.find(
+                'span',
+                text=re.compile('^grenade dmg / round$',
+                                re.IGNORECASE)).find_next('span').text
             return float(grenade_damage_per_round.strip())
         except AttributeError:
             return None
 
-    def _parse_assists_per_round(self, soup) -> float:
+    def _parse_assists_per_round(self, soup):
         try:
-            assists_per_round = soup.find('span', text=re.compile('^assists / round$', re.IGNORECASE)).find_next('span').text
+            assists_per_round = soup.find(
+                'span', text=re.compile('^assists / round$',
+                                        re.IGNORECASE)).find_next('span').text
             return float(assists_per_round.strip())
         except AttributeError:
             return None
 
-    def _parse_rating(self, soup) -> float:
+    def _parse_rating(self, soup):
         try:
-            rating = soup.find('span', text=re.compile('^Rating 2.0$', re.IGNORECASE)).find_next('span').text
+            rating = soup.find(
+                'span', text=re.compile('^Rating 2.0$',
+                                        re.IGNORECASE)).find_next('span').text
             return float(rating.strip())
         except AttributeError:
             try:
-                rating = soup.find('span', text=re.compile('^Rating 1.0$', re.IGNORECASE)).find_next('span').text
+                rating = soup.find('span',
+                                   text=re.compile(
+                                       '^Rating 1.0$',
+                                       re.IGNORECASE)).find_next('span').text
                 return float(rating.strip())
             except AttributeError:
                 return None
@@ -121,21 +141,21 @@ class HltvParser:
 
         return info
 
-    def _parse_nickname(self, soup) -> str:
+    def _parse_nickname(self, soup):
         try:
             nickname = soup.find('h1', class_='summaryNickname').text
             return nickname.strip()
         except AttributeError:
             return None
 
-    def _parse_age(self, soup) -> int:
+    def _parse_age(self, soup):
         try:
             age = soup.find('div', class_='summaryPlayerAge').text
             return int(age.split()[0])
         except AttributeError:
             return None
 
-    def _parse_hltv_photo(self, soup) -> str:
+    def _parse_hltv_photo(self, soup):
         try:
             hltv_photo = soup.find('img', class_='summaryBodyshot')['src']
             return hltv_photo
@@ -148,9 +168,10 @@ class HltvParser:
             except AttributeError:
                 return None
 
-    def _parse_hltv_crop_photo(self, soup) -> str:
+    def _parse_hltv_crop_photo(self, soup):
         try:
-            hltv_crop_photo = soup.find('img', class_='context-item-image')['src']
+            hltv_crop_photo = soup.find('img',
+                                        class_='context-item-image')['src']
             return hltv_crop_photo
         except AttributeError:
             return None

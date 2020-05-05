@@ -43,17 +43,37 @@ class StartUpSettings(models.Model):
 class PlayerConfig(models.Model):
     game = models.ForeignKey('Game', on_delete=models.CASCADE)
     player = models.ForeignKey('Player', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
+    created_at = models.DateTimeField(editable=False,
+                                      null=False,
+                                      default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
-    mouse_config = models.OneToOneField(MouseConfig, on_delete=models.CASCADE, null=True, blank=True)
-    video_config = models.OneToOneField(VideoConfig, on_delete=models.CASCADE, null=True, blank=True)
-    crosshair_config = models.OneToOneField(CrosshairConfig, on_delete=models.CASCADE, null=True, blank=True)
-    viewmodel_config = models.OneToOneField(ViewModelConfig, on_delete=models.CASCADE, null=True, blank=True)
-    startup_config = models.OneToOneField(StartUpSettings, on_delete=models.CASCADE, null=True, blank=True)
+    mouse_config = models.OneToOneField(MouseConfig,
+                                        on_delete=models.CASCADE,
+                                        null=True,
+                                        blank=True)
+    video_config = models.OneToOneField(VideoConfig,
+                                        on_delete=models.CASCADE,
+                                        null=True,
+                                        blank=True)
+    crosshair_config = models.OneToOneField(CrosshairConfig,
+                                            on_delete=models.CASCADE,
+                                            null=True,
+                                            blank=True)
+    viewmodel_config = models.OneToOneField(ViewModelConfig,
+                                            on_delete=models.CASCADE,
+                                            null=True,
+                                            blank=True)
+    startup_config = models.OneToOneField(StartUpSettings,
+                                          on_delete=models.CASCADE,
+                                          null=True,
+                                          blank=True)
 
     class Meta:
-        unique_together = ('game', 'player',)
+        unique_together = (
+            'game',
+            'player',
+        )
 
     def save(self, *args, **kwargs):
         if not self.id:
