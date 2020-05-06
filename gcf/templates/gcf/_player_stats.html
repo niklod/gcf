@@ -22,7 +22,7 @@
                             </div>
                             {% else %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xs fa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.rating|minus:stats_avg.rating__avg|floatformat:"2" }}</small>
                             </div>
                             {% endif %}
@@ -41,7 +41,7 @@
                             </div>
                             {% else %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xs fa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.total_kills|minus:stats_avg.total_kills__avg|floatformat:"0" }}</small>
                             </div>
                             {% endif %}
@@ -55,7 +55,7 @@
                             <div>{{ player_stats.total_deaths|floatformat:"0" }}</div>
                             {% if player_stats.total_deaths|minus:stats_avg.total_deaths__avg > 0 %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xs fa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.total_deaths|minus:stats_avg.total_deaths__avg|floatformat:"0" }}</small>
                             </div>
                             {% else %}
@@ -79,7 +79,7 @@
                             </div>
                             {% else %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xsfa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.rounds_played|minus:stats_avg.rounds_played__avg|floatformat:"0" }}</small>
                             </div>
                             {% endif %}
@@ -98,7 +98,7 @@
                             </div>
                             {% else %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xs fa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.headshots_percent|minus:stats_avg.headshots_percent__avg|floatformat:"2" }}%</small>
                             </div>
                             {% endif %}
@@ -121,7 +121,7 @@
                             </div>
                             {% else %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xs fa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.kda|minus:stats_avg.kda__avg|floatformat:"2" }}</small>
                             </div>
                             {% endif %}
@@ -140,7 +140,7 @@
                             </div>
                             {% else %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xs fa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.kill_per_round|minus:stats_avg.kill_per_round__avg|floatformat:"2" }}</small>
                             </div>
                             {% endif %}
@@ -154,7 +154,7 @@
                             <div>{{ player_stats.death_per_round|floatformat:"2" }}</div>
                             {% if player_stats.death_per_round|minus:stats_avg.death_per_round__avg > 0 %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xs fa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.death_per_round|minus:stats_avg.death_per_round__avg|floatformat:"2" }}</small>
                             </div>
                             {% else %}
@@ -178,7 +178,7 @@
                             </div>
                             {% else %}
                             <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-up fa-xs fa-rotate-180"></i>
+                                <i class="fa fa-chevron-down fa-xs"></i>
                                 <small>{{ player_stats.damage_per_round|minus:stats_avg.damage_per_round__avg|floatformat:"2" }}</small>
                             </div>
                             {% endif %}
