@@ -8,9 +8,7 @@ class User(models.Model):
     email = models.EmailField(max_length=125, null=False)
     first_name = models.CharField(max_length=80, null=True)
     last_name = models.CharField(max_length=80, null=True)
-    created_at = models.DateTimeField(editable=False,
-                                      null=False,
-                                      default=timezone.now)
+    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
@@ -23,15 +21,13 @@ class User(models.Model):
         return self.username
 
     def __repr__(self):
-        return f'<User(username: {self.username}, id: {self.id})>'
+        return f"<User(username: {self.username}, id: {self.id})>"
 
 
 class Game(models.Model):
     name = models.CharField(max_length=100, null=False, unique=True)
     slug = models.CharField(max_length=100, null=True)
-    created_at = models.DateTimeField(editable=False,
-                                      null=False,
-                                      default=timezone.now)
+    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -42,7 +38,7 @@ class Game(models.Model):
         return self.name
 
     def __repr__(self):
-        return f'<(Game: {self.name}, id: {self.id})>'
+        return f"<(Game: {self.name}, id: {self.id})>"
 
 
 class PlayerInfo(models.Model):
@@ -59,14 +55,10 @@ class Player(models.Model):
     nickname = models.CharField(max_length=100, null=False, unique=True)
     slug = models.CharField(max_length=100, null=True)
     games = models.ManyToManyField(Game)
-    info = models.OneToOneField(PlayerInfo,
-                                on_delete=models.CASCADE,
-                                null=True,
-                                editable=True,
-                                blank=True)
-    created_at = models.DateTimeField(editable=False,
-                                      null=False,
-                                      default=timezone.now)
+    info = models.OneToOneField(
+        PlayerInfo, on_delete=models.CASCADE, null=True, editable=True, blank=True
+    )
+    created_at = models.DateTimeField(editable=False, null=False, default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
@@ -78,7 +70,7 @@ class Player(models.Model):
 
             # If we find player with same nickname, generate slug as name + nickname
             if player:
-                self.slug = generate_slug(f'{self.name} {self.nickname}')
+                self.slug = generate_slug(f"{self.name} {self.nickname}")
             else:
                 self.slug = temp_slug
 
@@ -89,11 +81,13 @@ class Player(models.Model):
         return self.nickname
 
     def __repr__(self):
-        return f'<Player(Name: {self.nickname}, id: {self.id})>'
+        return f"<Player(Name: {self.nickname}, id: {self.id})>"
 
 
 class PlayerStats(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    player = models.ForeignKey(
+        Player, on_delete=models.CASCADE, related_name="playerstats"
+    )
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     rating = models.FloatField(null=True, editable=True)
     headshots_percent = models.FloatField(null=True, editable=True)
@@ -108,7 +102,5 @@ class PlayerStats(models.Model):
 class PlayerImage(models.Model):
     url = models.CharField(max_length=300, null=True, editable=True)
     hltv_picture = models.CharField(max_length=300, null=True, editable=True)
-    hltv_crop_picture = models.CharField(max_length=300,
-                                         null=True,
-                                         editable=True)
+    hltv_crop_picture = models.CharField(max_length=300, null=True, editable=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
