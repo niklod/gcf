@@ -1,194 +1,196 @@
 {% if player_stats %}
 {% load math %}
 <div class="row">
-    <section class="col-md-12">
-        <div class="row">
-            <header class="col-md-12 uppercase">
-                <h3>Статистика игрока</h3>
-            </header>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <ul class="list-unstyled">
-                    {% if player_stats.rating is not None %}
-                    <li class="config_items">
-                        <div>Рейтинг:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.rating }}</div>
-                            {% if player_stats.rating|minus:stats_avg.rating__avg > 0 %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.rating|minus:stats_avg.rating__avg|floatformat:"2" }}</small>
-                            </div>
-                            {% else %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.rating|minus:stats_avg.rating__avg|floatformat:"2" }}</small>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
-                    {% if player_stats.total_kills is not None %}
-                    <li class="config_items">
-                        <div>Всего убийств:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.total_kills|floatformat:"0" }}</div>
-                            {% if player_stats.total_kills|minus:stats_avg.total_kills__avg > 0 %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.total_kills|minus:stats_avg.total_kills__avg|floatformat:"0" }}</small>
-                            </div>
-                            {% else %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.total_kills|minus:stats_avg.total_kills__avg|floatformat:"0" }}</small>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
-                    {% if player_stats.total_deaths is not None %}
-                    <li class="config_items">
-                        <div>Всего смертей:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.total_deaths|floatformat:"0" }}</div>
-                            {% if player_stats.total_deaths|minus:stats_avg.total_deaths__avg > 0 %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.total_deaths|minus:stats_avg.total_deaths__avg|floatformat:"0" }}</small>
-                            </div>
-                            {% else %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.total_deaths|minus:stats_avg.total_deaths__avg|floatformat:"0" }}</small>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
-                    {% if player_stats.rounds_played is not None %}
-                    <li class="config_items">
-                        <div>Раундов сыграно:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.rounds_played|floatformat:"0" }}</div>
-                            {% if player_stats.rounds_played|minus:stats_avg.rounds_played__avg > 0 %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.rounds_played|minus:stats_avg.rounds_played__avg|floatformat:"0" }}</small>
-                            </div>
-                            {% else %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.rounds_played|minus:stats_avg.rounds_played__avg|floatformat:"0" }}</small>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
-                    {% if player_stats.headshots_percent is not None %}
-                    <li class="config_items">
-                        <div>Попаданий в голову:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.headshots_percent|floatformat:"2" }}%</div>
-                            {% if player_stats.headshots_percent|minus:stats_avg.headshots_percent__avg > 0 %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.headshots_percent|minus:stats_avg.headshots_percent__avg|floatformat:"2" }}%</small>
-                            </div>
-                            {% else %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.headshots_percent|minus:stats_avg.headshots_percent__avg|floatformat:"2" }}%</small>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
-                </ul>
+    <div class="col-md-12">
+        <section class="col-md-12">
+            <div class="row">
+                <header class="col-md-12 uppercase">
+                    <h3>Статистика игрока</h3>
+                </header>
             </div>
-            <div class="col-md-6">
-                <ul class="list-unstyled">
-                    {% if player_stats.kda is not None %}
-                    <li class="config_items">
-                        <div>KDA:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.kda|floatformat:"2" }}</div>
-                            {% if player_stats.kda|minus:stats_avg.kda__avg > 0 %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.kda|minus:stats_avg.kda__avg|floatformat:"2" }}</small>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        {% if player_stats.rating is not None %}
+                        <li class="config_items">
+                            <div>Рейтинг:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.rating }}</div>
+                                {% if player_stats.rating|minus:stats_avg.rating__avg > 0 %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.rating|minus:stats_avg.rating__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.rating|minus:stats_avg.rating__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% else %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.kda|minus:stats_avg.kda__avg|floatformat:"2" }}</small>
+                        </li>
+                        {% endif %}
+                        {% if player_stats.total_kills is not None %}
+                        <li class="config_items">
+                            <div>Всего убийств:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.total_kills|floatformat:"0" }}</div>
+                                {% if player_stats.total_kills|minus:stats_avg.total_kills__avg > 0 %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.total_kills|minus:stats_avg.total_kills__avg|floatformat:"0" }}</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.total_kills|minus:stats_avg.total_kills__avg|floatformat:"0" }}</small>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
-                    {% if player_stats.kill_per_round is not None %}
-                    <li class="config_items">
-                        <div>Убийств на раунд:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.kill_per_round|floatformat:"2" }}</div>
-                            {% if player_stats.kill_per_round|minus:stats_avg.kill_per_round__avg > 0 %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.kill_per_round|minus:stats_avg.kill_per_round__avg|floatformat:"2" }}</small>
+                        </li>
+                        {% endif %}
+                        {% if player_stats.total_deaths is not None %}
+                        <li class="config_items">
+                            <div>Всего смертей:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.total_deaths|floatformat:"0" }}</div>
+                                {% if player_stats.total_deaths|minus:stats_avg.total_deaths__avg > 0 %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.total_deaths|minus:stats_avg.total_deaths__avg|floatformat:"0" }}</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.total_deaths|minus:stats_avg.total_deaths__avg|floatformat:"0" }}</small>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% else %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.kill_per_round|minus:stats_avg.kill_per_round__avg|floatformat:"2" }}</small>
+                        </li>
+                        {% endif %}
+                        {% if player_stats.rounds_played is not None %}
+                        <li class="config_items">
+                            <div>Раундов сыграно:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.rounds_played|floatformat:"0" }}</div>
+                                {% if player_stats.rounds_played|minus:stats_avg.rounds_played__avg > 0 %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.rounds_played|minus:stats_avg.rounds_played__avg|floatformat:"0" }}</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.rounds_played|minus:stats_avg.rounds_played__avg|floatformat:"0" }}</small>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
-                    {% if player_stats.death_per_round is not None %}
-                    <li class="config_items">
-                        <div>Смертей на раунд:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.death_per_round|floatformat:"2" }}</div>
-                            {% if player_stats.death_per_round|minus:stats_avg.death_per_round__avg > 0 %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.death_per_round|minus:stats_avg.death_per_round__avg|floatformat:"2" }}</small>
+                        </li>
+                        {% endif %}
+                        {% if player_stats.headshots_percent is not None %}
+                        <li class="config_items">
+                            <div>Попаданий в голову:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.headshots_percent|floatformat:"2" }}%</div>
+                                {% if player_stats.headshots_percent|minus:stats_avg.headshots_percent__avg > 0 %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.headshots_percent|minus:stats_avg.headshots_percent__avg|floatformat:"2" }}%</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.headshots_percent|minus:stats_avg.headshots_percent__avg|floatformat:"2" }}%</small>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% else %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.death_per_round|minus:stats_avg.death_per_round__avg|floatformat:"2" }}</small>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        {% if player_stats.kda is not None %}
+                        <li class="config_items">
+                            <div>KDA:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.kda|floatformat:"2" }}</div>
+                                {% if player_stats.kda|minus:stats_avg.kda__avg > 0 %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.kda|minus:stats_avg.kda__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.kda|minus:stats_avg.kda__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
-                    {% if player_stats.damage_per_round is not None %}
-                    <li class="config_items">
-                        <div>Урона на раунд:</div>
-                        <div class="stats-nums">
-                            <div>{{ player_stats.damage_per_round|floatformat:"2" }}</div>
-                            {% if player_stats.damage_per_round|minus:stats_avg.damage_per_round__avg > 0 %}
-                            <div class="stat-success">
-                                <i class="fa fa-chevron-up fa-xs"></i>
-                                <small>{{ player_stats.damage_per_round|minus:stats_avg.damage_per_round__avg|floatformat:"2" }}</small>
+                        </li>
+                        {% endif %}
+                        {% if player_stats.kill_per_round is not None %}
+                        <li class="config_items">
+                            <div>Убийств на раунд:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.kill_per_round|floatformat:"2" }}</div>
+                                {% if player_stats.kill_per_round|minus:stats_avg.kill_per_round__avg > 0 %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.kill_per_round|minus:stats_avg.kill_per_round__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.kill_per_round|minus:stats_avg.kill_per_round__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% else %}
-                            <div class="stat-unsuccess">
-                                <i class="fa fa-chevron-down fa-xs"></i>
-                                <small>{{ player_stats.damage_per_round|minus:stats_avg.damage_per_round__avg|floatformat:"2" }}</small>
+                        </li>
+                        {% endif %}
+                        {% if player_stats.death_per_round is not None %}
+                        <li class="config_items">
+                            <div>Смертей на раунд:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.death_per_round|floatformat:"2" }}</div>
+                                {% if player_stats.death_per_round|minus:stats_avg.death_per_round__avg > 0 %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.death_per_round|minus:stats_avg.death_per_round__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.death_per_round|minus:stats_avg.death_per_round__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% endif %}
+                        </li>
+                        {% endif %}
+                        {% if player_stats.damage_per_round is not None %}
+                        <li class="config_items">
+                            <div>Урона на раунд:</div>
+                            <div class="stats-nums">
+                                <div>{{ player_stats.damage_per_round|floatformat:"2" }}</div>
+                                {% if player_stats.damage_per_round|minus:stats_avg.damage_per_round__avg > 0 %}
+                                <div class="stat-success">
+                                    <i class="fa fa-chevron-up fa-xs"></i>
+                                    <small>{{ player_stats.damage_per_round|minus:stats_avg.damage_per_round__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% else %}
+                                <div class="stat-unsuccess">
+                                    <i class="fa fa-chevron-down fa-xs"></i>
+                                    <small>{{ player_stats.damage_per_round|minus:stats_avg.damage_per_round__avg|floatformat:"2" }}</small>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endif %}
 
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </div>
 {% endif %}

@@ -1,48 +1,50 @@
 {% if config.video_config %}
 <div class="row">
-    <section class="col-md-12">
-        <div class="row">
-            <header class="col-md-12 uppercase">
-                <h3>Видео настройки</h3>
-            </header>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <ul class="list-unstyled">
-                    {% if config.video_config.resolution_width is not None and config.video_config.resolution_width is not None %}
-                    <li class="config_items">
-                        <div>Разрешение экрана:</div>
-                        <div>{{ config.video_config.resolution_width }}x{{ config.video_config.resolution_height }}
-                        </div>
-                    </li>
-                    {% endif %}
-                    {% if config.video_config.aspect_ration_width is not None and config.video_config.aspect_ration_height is not None %}
-                    <li class="config_items">
-                        <div>Соотношение сторон:</div>
-                        <div>
-                            {{ config.video_config.aspect_ration_width }}x{{ config.video_config.aspect_ration_height }}
-                        </div>
-                    </li>
-                    {% endif %}
-                </ul>
+    <div class="col-md-12">
+        <section class="col-md-12">
+            <div class="row">
+                <header class="col-md-12 uppercase">
+                    <h3>Видео настройки</h3>
+                </header>
             </div>
-            <div class="col-md-6">
-                <ul class="list-unstyled">
-                    {% if config.video_config.frequency is not None %}
-                    <li class="config_items">
-                        <div>Частота обновления:</div>
-                        <div>{{ config.video_config.frequency }} Гц</div>
-                    </li>
-                    {% endif %}
-                    {% if config.video_config.dimension is not None %}
-                    <li class="config_items">
-                        <div>Размерность:</div>
-                        <div>{{ config.video_config.dimension }}</div>
-                    </li>
-                    {% endif %}
-                </ul>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        {% if config.video_config.resolution_width is not None and config.video_config.resolution_width is not None %}
+                        <li class="config_items">
+                            <div>Разрешение экрана:</div>
+                            <div>{{ config.video_config.resolution_width }}x{{ config.video_config.resolution_height }}
+                            </div>
+                        </li>
+                        {% endif %}
+                        {% if config.video_config.aspect_ration_width is not None and config.video_config.aspect_ration_height is not None %}
+                        <li class="config_items">
+                            <div>Соотношение сторон:</div>
+                            <div>
+                                {{ config.video_config.aspect_ration_width }}x{{ config.video_config.aspect_ration_height }}
+                            </div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        {% if config.video_config.frequency is not None %}
+                        <li class="config_items">
+                            <div>Частота обновления:</div>
+                            <div>{{ config.video_config.frequency }} Гц</div>
+                        </li>
+                        {% endif %}
+                        {% if config.video_config.dimension is not None %}
+                        <li class="config_items">
+                            <div>Размерность:</div>
+                            <div>{{ config.video_config.dimension }}</div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </div>
 {% endif %}

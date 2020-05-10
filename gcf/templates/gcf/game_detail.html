@@ -1,9 +1,9 @@
-{% for player in game.player_set.all %}
-<ul>
-    <li>
-        <h2><a href="{% url 'gcf:player_detail' game.slug player.slug %}">{{ player.nickname }}</a></h2>
-        <p>{{player.info.age}}</p>
-        <p>{{player.info.firstname}} {{player.info.lastname}}</p>
-    </li>
-</ul>
+{% extends 'gcf/base.html' %}
+{% block app_content %}
+<div class="div col-md-12 main_header">
+    <h1>Список игроков {{ game.name }}</h1>
+</div>
+{% for player in players %}
+{% include 'gcf/_player_snippet.html' %}
 {% endfor %}
+{% endblock %}

@@ -1,0 +1,107 @@
+{% load math %}
+<div class="player_card col-md-12">
+    <div class="row">
+
+        <div class="player_crop_pic col-md-2">
+            <div class="row">
+                <img src="{{ player.playerimage_set.first.hltv_crop_picture }}" alt="">
+            </div>
+        </div>
+
+        <div class="player-snippet-content col-md-10">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h2><a
+                                            href="{% url 'gcf:player_detail' game.slug player.slug %}">{{ player.nickname }}</a>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="list-unstyled">
+                                        {% if player.info.firstname and player.info.lastname%}
+                                        <li>
+                                            {{ player.info.firstname }} {{ player.info.lastname }}
+                                        </li>
+                                        {% endif %}
+                                        {% if player.info.age %}
+                                        <li>
+                                            {{ player.info.age }}
+                                        </li>
+                                        {% endif %}
+                                        {% if player.info.city %}
+                                        <li>
+                                            {{ player.info.city }}
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="list-unstyled">
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="list-unstyled">
+                                {% if player.stats_rating %}
+                                <li class="config_items">
+                                    <div>Рейтинг:</div>
+                                    <div>{{ player.stats_rating }}</div>
+                                </li>
+                                {% endif %}
+                                {% if player.stats_total_kills and player.stats_total_deaths %}
+                                <li class="config_items">
+                                    <div>KDA:</div>
+                                    <div>
+                                        {{ player.stats_total_kills|divide:player.stats_total_deaths|floatformat:"2" }}
+                                    </div>
+                                </li>
+                                {% if player.stats_rounds_played %}
+                                <li class="config_items">
+                                    <div>Килы / раунды:</div>
+                                    <div>
+                                        {{ player.stats_total_kills|divide:player.stats_rounds_played|floatformat:"2" }}
+                                    </div>
+                                </li>
+                                <li class="config_items">
+                                    <div>Смерти / раунды:</div>
+                                    <div>
+                                        {{ player.stats_total_deaths|divide:player.stats_rounds_played|floatformat:"2" }}
+                                    </div>
+                                </li>
+                                {% endif %}
+                                {% endif %}
+                                {% if player.stats_damage_per_round %}
+                                <li class="config_items">
+                                    <div>Дамаг / раунды:</div>
+                                    <div>
+                                        {{ player.stats_damage_per_round|floatformat:"2" }}
+                                    </div>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

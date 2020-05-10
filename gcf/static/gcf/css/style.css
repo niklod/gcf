@@ -43,6 +43,26 @@ body {
     color: #fefefe!important;
 }
 
+.player_crop_pic img {
+    width: 100%;
+}
+
+.player-snippet-header {
+    padding-top: 6px;
+}
+
+.player-snippet-content {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.player_card {
+    background-color: #323c53;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
 .stats-nums {
     display: flex;
     flex-flow: row;

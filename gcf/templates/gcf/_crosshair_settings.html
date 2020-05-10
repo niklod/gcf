@@ -1,21 +1,24 @@
 {% if config.crosshair_config %}
 {% if config.crosshair_config.crosshair_settings is not Null %}
 <div class="row">
-    <section class="col-md-12 unborder-right">
-        <div class="row">
-            <header class="col-md-12 uppercase">
-                <h3>Настройки прицела</h3>
-            </header>
-        </div>
+    <div class="col-md-12">
+        <section class="col-md-12">
+            <div class="row">
+                <header class="col-md-12 uppercase">
+                    <h3>Настройки прицела</h3>
+                </header>
+            </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="console console-crosshair">
-                    <textarea autocomplete="off" wrap="on">{{ config.crosshair_config.crosshair_settings }}</textarea>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="console console-crosshair">
+                        <textarea autocomplete="off"
+                            wrap="on">{{ config.crosshair_config.crosshair_settings }}</textarea>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </div>
 {% endif %}
 {% endif %}

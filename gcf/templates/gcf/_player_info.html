@@ -1,81 +1,83 @@
 <div class="row">
-    <section class="col-md-11">
-        <div class="row">
-            <header class="col-md-12 centered">
-                {% if player.info.firstname and player.info.lastname %}
-                <h2>{{player.info.firstname}} {{player.nickname}} {{player.info.lastname}}</h2>
-                {% else %}
-                <h2>{{player.nickname}}</h2>
-                {% endif %}
-            </header>
-        </div>
-        <div class="row">
-            <div class="col-md-12 main-photo">
-                <div>
-                    <img src="{{ player.playerimage_set.first.hltv_picture }}" alt="..." class="player-pic">
+    <div class="col-md-12">
+        <section class="col-md-12">
+            <div class="row">
+                <header class="col-md-12 centered">
+                    {% if player.info.firstname and player.info.lastname %}
+                    <h2>{{player.info.firstname}} {{player.nickname}} {{player.info.lastname}}</h2>
+                    {% else %}
+                    <h2>{{player.nickname}}</h2>
+                    {% endif %}
+                </header>
+            </div>
+            <div class="row">
+                <div class="col-md-12 main-photo">
+                    <div>
+                        <img src="{{ player.playerimage_set.first.hltv_picture }}" alt="..." class="player-pic">
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    {% if player.info %}
-    <section class="col-md-11">
-        <div class="row">
-            <header class="col-md-12 uppercase centered">
-                <h3>Информация о игроке</h3>
-            </header>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="list-unstyled">
-                    {% if player.info.firstname and player.info.lastname%}
-                    <li class="config_items">
-                        <div>Имя:</div>
-                        <div>{{ player.info.firstname }} {{ player.info.lastname }}</div>
-                    </li>
-                    {% endif %}
-                    {% if player.info.age %}
-                    <li class="config_items">
-                        <div>Возраст:</div>
-                        <div>{{ player.info.age }}</div>
-                    </li>
-                    {% endif %}
-                    {% if player.info.city %}
-                    <li class="config_items">
-                        <div>Страна:</div>
-                        <div>{{ player.info.city }}</div>
-                    </li>
-                    {% endif %}
-                </ul>
+        </section>
+        {% if player.info %}
+        <section class="col-md-12">
+            <div class="row">
+                <header class="col-md-12 uppercase centered">
+                    <h3>Информация о игроке</h3>
+                </header>
             </div>
-        </div>
-        {% if player.info.twitch_link or player.info.steam_link%}
-        <div class="row">
-            <div class="social_links centered col-md-12">
-                {% if player.info.twitch_link %}
-                <a href="{{player.info.twitch_link}}" rel="nofollow" target="_blank"><i
-                        class="fab fa-twitch fa-lg"></i></a>
-                {% endif %}
-                {% if player.info.steam_link%}
-                <a href="{{player.info.steam_link}}" rel="nofollow" target="_blank"><i
-                        class="fab fa-steam fa-lg"></i></a>
-                {% endif %}
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="list-unstyled">
+                        {% if player.info.firstname and player.info.lastname%}
+                        <li class="config_items">
+                            <div>Имя:</div>
+                            <div>{{ player.info.firstname }} {{ player.info.lastname }}</div>
+                        </li>
+                        {% endif %}
+                        {% if player.info.age %}
+                        <li class="config_items">
+                            <div>Возраст:</div>
+                            <div>{{ player.info.age }}</div>
+                        </li>
+                        {% endif %}
+                        {% if player.info.city %}
+                        <li class="config_items">
+                            <div>Страна:</div>
+                            <div>{{ player.info.city }}</div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
-        </div>
+            {% if player.info.twitch_link or player.info.steam_link%}
+            <div class="row">
+                <div class="social_links centered col-md-12">
+                    {% if player.info.twitch_link %}
+                    <a href="{{player.info.twitch_link}}" rel="nofollow" target="_blank"><i
+                            class="fab fa-twitch fa-lg"></i></a>
+                    {% endif %}
+                    {% if player.info.steam_link%}
+                    <a href="{{player.info.steam_link}}" rel="nofollow" target="_blank"><i
+                            class="fab fa-steam fa-lg"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </section>
         {% endif %}
-    </section>
-    {% endif %}
-    {% if player.info.description %}
-    <section class="col-md-11">
-        <div class="row">
-            <div class="col-md-12 uppercase centered">
-                <h3>Описание</h3>
+        {% if player.info.description %}
+        <section class="col-md-11">
+            <div class="row">
+                <div class="col-md-12 uppercase centered">
+                    <h3>Описание</h3>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <p>{{ player.info.description }}</p>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>{{ player.info.description }}</p>
+                </div>
             </div>
-        </div>
-    </section>
-    {% endif %}
+        </section>
+        {% endif %}
+    </div>
 </div>
