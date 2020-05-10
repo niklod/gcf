@@ -2,7 +2,7 @@ from django.http import Http404
 from django.views import generic
 from .models import Player, Game, PlayerConfig, PlayerStats
 from django.shortcuts import get_object_or_404
-from django.db.models import Avg, F, FloatField, Case, When
+from django.db.models import Avg, F, FloatField, IntegerField, Case, When
 from django.db.models.functions import Cast
 
 
@@ -91,11 +91,48 @@ class GameView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         game = self.get_object()
+
         rating = Case(
             When(playerstats__game__pk=game.pk, then=F("playerstats__rating")),
             default=0.0,
             output_field=FloatField(),
         )
-        context["players"] = Player.objects.annotate(stats_rating=rating).all()
+
+        total_kills = Case(
+            When(playerstats__game__pk=game.pk, then=F("playerstats__total_kills")),
+            default=0,
+            output_field=IntegerField(),
+        )
+
+        total_deaths = Case(
+            When(playerstats__game__pk=game.pk, then=F("playerstats__total_deaths")),
+            default=0,
+            output_field=IntegerField(),
+        )
+
+        rounds_played = Case(
+            When(playerstats__game__pk=game.pk, then=F("playerstats__rounds_played")),
+            default=0,
+            output_field=IntegerField(),
+        )
+        damage_per_round = Case(
+            When(
+                playerstats__game__pk=game.pk, then=F("playerstats__damage_per_round")
+            ),
+            default=0,
+            output_field=FloatField(),
+        )
+
+        context["players"] = (
+            Player.objects.annotate(
+                stats_rating=rating,
+                stats_total_kills=total_kills,
+                stats_total_deaths=total_deaths,
+                stats_rounds_played=rounds_played,
+                stats_damage_per_round=damage_per_round,
+            )
+            .order_by("-stats_rating")
+            .all()
+        )
 
         return context
